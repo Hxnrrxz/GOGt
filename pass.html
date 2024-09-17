@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,21 +58,52 @@
         }
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <h2>กรุณาใส่รหัสผ่าน</h2>
         <!-- ฟอร์มที่จะส่งไปยังไฟล์ PHP -->
-        <form action="pass.php" method="POST">
+        <!-- <form action="pass.php" method="POST"> -->
+        <form id="login-form">
             <input type="password" id="password" name="password" placeholder="รหัสผ่าน" required>
             <button type="submit">เข้าสู่ระบบ</button>
         </form>
         <div id="error-message" class="error-message">
-            <?php
+            <!-- <?php
                 if (isset($_GET['error'])) {
                     echo 'รหัสผ่านไม่ถูกต้อง';
                 }
-            ?>
+            ?> -->
         </div>
     </div>
+    <script>
+        // ฟังก์ชันเข้ารหัส Base64
+        function encodeBase64(str) {
+            return btoa(str);
+        }
+
+        // ฟังก์ชันถอดรหัส Base64
+        function decodeBase64(str) {
+            return atob(str);
+        }
+
+        // รหัสผ่านที่เข้ารหัสไว้
+        const encodedPassword = encodeBase64('your_password_here'); // ป้อนรหัสผ่านที่แท้จริงที่นี่
+
+        document.getElementById('login-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const enteredPassword = document.getElementById('password').value;
+            const decodedPassword = decodeBase64(encodedPassword);
+
+            if (enteredPassword === decodedPassword) {
+                window.location.href = 'fpass.html'; // หน้าแสดงข้อมูลที่ซ่อน
+            } else {
+                document.getElementById('error-message').textContent = 'รหัสผ่านไม่ถูกต้อง';
+            }
+        });
+
+    </script>
 </body>
+
 </html>
